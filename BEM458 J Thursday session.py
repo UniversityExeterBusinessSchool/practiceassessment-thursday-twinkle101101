@@ -1,10 +1,10 @@
 #######################################################################################################################################################
 # 
-# Name:
-# SID:
-# Exam Date:
-# Module:
-# Github link for this assignment:  
+# Name:Twinkle Chauhan
+# SID:750015322
+# Exam Date:27 March 2025
+# Module:progamming for business analytics
+# Github link for this assignment:  https://github.com/UniversityExeterBusinessSchool/practiceassessment-thursday-twinkle101101
 #
 # ######################################################################################################################################################
 # Instruction 1. Read the questions and instructions carefully and complete scripts.
@@ -52,6 +52,44 @@ key_comments = {
 # Initialize an empty list to store (start, end) positions
 my_list = []
 
+# Given customer feedback text
+customer_feedback = """Your recent order experience has been satisfactory overall. While there were some minor issues,
+we appreciate the effort made to resolve them promptly."
+"""
+
+# List of words to search for
+key_comments = {
+    0: 'satisfactory',
+    1: 'order',
+    2: 'effort',
+    3: 'issues',
+    4: 'promptly',
+    5: 'appreciate',
+    6: 'experience',
+    7: 'resolve',
+    8: 'overall',
+    9: 'minor'
+}
+
+# Initialize an empty list to store (start, end) positions
+my_list = []
+
+# Your allocated keys (first and last digit of SID)
+allocated_keys = [7, 2]  # From SID: first=7, last=2
+
+# Iterate through allocated keys and find their positions in text
+for key in allocated_keys:
+    word = key_comments[key]  # Get the word using the key
+    start_pos = customer_feedback.find(word)  # Find the start position
+    if start_pos != -1:  # If the word is found
+        end_pos = start_pos + len(word)  # Calculate the end position
+        my_list.append((start_pos, end_pos))  # Append as a tuple
+
+# Print the results
+print(my_list)
+#output
+#[(129, 136), (114, 120)]
+
 ##########################################################################################################################################################
 
 # Question 2 - Functions
@@ -71,7 +109,54 @@ my_list = []
 # Write your code for Average Order Value
 
 # Call your designed functions here
+# Function to calculate Operating Profit Margin
+def operating_profit_margin(profit, revenue):
+    if revenue == 0:
+        return "Revenue cannot be zero."
+    return (profit / revenue) * 100
 
+# Function to calculate Revenue per Customer
+def revenue_per_customer(total_revenue, num_customers):
+    if num_customers == 0:
+        return "Number of customers cannot be zero."
+    return total_revenue / num_customers
+
+# Function to calculate Customer Churn Rate
+def customer_churn_rate(customers_lost, total_customers):
+    if total_customers == 0:
+        return "Total customers cannot be zero."
+    return (customers_lost / total_customers) * 100
+
+# Function to calculate Average Order Value (AOV)
+def average_order_value(total_revenue, num_orders):
+    if num_orders == 0:
+        return "Number of orders cannot be zero."
+    return total_revenue / num_orders
+
+# Inputs using SID digits
+profit = 75  # First two digits
+revenue = 220  # Last two digits multiplied by 10 for realistic revenue
+customers_lost = 22  # Last two digits
+total_customers = 150  # Arbitrary example
+num_customers = 75  # First two digits
+num_orders = 44  # Arbitrary example
+
+# Calling the functions
+op_margin = operating_profit_margin(profit, revenue)
+rev_per_cust = revenue_per_customer(revenue, num_customers)
+churn_rate = customer_churn_rate(customers_lost, total_customers)
+aov = average_order_value(revenue, num_orders)
+
+# Display results
+print(f"Operating Profit Margin: {op_margin:.2f}%")
+print(f"Revenue per Customer: ${rev_per_cust:.2f}")
+print(f"Customer Churn Rate: {churn_rate:.2f}%")
+print(f"Average Order Value: ${aov:.2f}")
+#output
+#Operating Profit Margin: 34.09%
+#Revenue per Customer: $2.93
+#Customer Churn Rate: 14.67%
+#Average Order Value: $5.00
 ##########################################################################################################################################################
 
 # Question 3 - Regression
@@ -97,7 +182,49 @@ Price (£)    Demand (Units)
 """
 
 # Write your code here
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
 
+# Given data
+prices = np.array([20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]).reshape(-1, 1)
+demand = np.array([300, 280, 260, 240, 210, 190, 160, 140, 120, 100, 85])
+
+# Train a linear regression model
+model = LinearRegression()
+model.fit(prices, demand)
+
+# Get regression coefficients
+slope = model.coef_[0]  # Rate of change of demand per price unit
+intercept = model.intercept_  # Base demand when price is zero
+
+# Define the revenue function: Revenue = Price × Demand
+def revenue(price):
+    demand_pred = slope * price + intercept  # Predict demand
+    return price * demand_pred  # Revenue formula
+
+# Find the price that maximizes revenue
+optimal_price = -intercept / (2 * slope)
+
+# Predict demand when price = £52
+price_52 = 52
+demand_52 = model.predict(np.array([[price_52]]))[0]
+
+# Display results
+print(f"Optimal Price to Maximize Revenue: £{optimal_price:.2f}")
+print(f"Predicted Demand at £52: {demand_52:.0f} units")
+
+# Plot demand vs price
+plt.scatter(prices, demand, color='blue', label="Actual Data")
+plt.plot(prices, model.predict(prices), color='red', label="Regression Line")
+plt.xlabel("Price (£)")
+plt.ylabel("Demand (Units)")
+plt.legend()
+plt.title("Price vs Demand Regression")
+plt.show()
+#output
+#Optimal Price to Maximize Revenue: £43.65
+#Predicted Demand at £52: 158 units
 ##########################################################################################################################################################
 
 # Question 4 - Debugging; Plotting and data visualization chart
@@ -118,5 +245,33 @@ plt.legend('---')
 plt.grid(True)
 plt.show()
 
+import random
+import matplotlib.pyplot as plt
 
+# Get student ID and generate 100 random numbers
+max_value = int(input("Enter your Student ID: "))  # Fixed variable name and input conversion
+random_numbers = [random.randint(1, max_value) for _ in range(100)]  # Use _ instead of unused variable
+
+# Plotting the numbers in a line chart
+plt.plot(
+    random_numbers, 
+    marker='o', 
+    markerfacecolor='green', 
+    markeredgecolor='red', 
+    linestyle='--', 
+    label='Random Numbers', 
+    color='blue'
+)
+
+# Fixing title and labels
+plt.title("Line Chart of 100 Random Numbers")  # String inside quotes
+plt.xlabel("Index")  # Use function call
+plt.ylabel("Random Number")
+
+# Fixing legend and grid
+plt.legend()
+plt.grid(True)
+
+# Display the plot
+plt.show()
 
